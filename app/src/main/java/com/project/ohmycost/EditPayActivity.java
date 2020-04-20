@@ -46,7 +46,7 @@ public class EditPayActivity extends AppCompatActivity {
             public void onClick(View view) {
                 pDatabaseHelper.deleteName(selectedID,selectedName);
                 editable_item.setText("");
-                toastMessage("removed from database");
+                toastMessage("Delete catagory successfully!");
             }
         });
     }

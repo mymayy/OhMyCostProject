@@ -97,7 +97,7 @@ public class AddActivity extends AppCompatActivity {
         boolean insertData = pDatabaseHelper.addData(day,month,year,item,amount);
 
         if (insertData) {
-            toastMessage("Data Successfully Inserted!");
+            toastMessage("Add catagory successfully!");
         } else {
             toastMessage("Something went wrong");
         }
