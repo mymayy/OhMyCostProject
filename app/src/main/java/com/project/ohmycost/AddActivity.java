@@ -1,7 +1,9 @@
 package com.project.ohmycost;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,6 +38,23 @@ public class AddActivity extends AppCompatActivity {
         typeSelect.add("Bus");
         typeSelect.add("Add Type");
 
+        ArrayList<String> typeAdd= (ArrayList<String>)getIntent().getExtras().getSerializable("type");
+        if(typeAdd!=null){
+            for(int i=0;i<typeAdd.size();i++){
+                String type = typeAdd.get(i);
+                if(!typeSelect.contains(type))
+                    typeSelect.add(typeSelect.size()-1,type);
+            }
+        }
+
+        ArrayList<String> typeData = GetType();
+        for(int i=0;i<typeData.size();i++){
+            String type = typeData.get(i);
+            if(!typeSelect.contains(type)){
+                typeSelect.add(typeSelect.size()-1,type);
+            }
+        }
+
         final String day = getIntent().getExtras().getString("day");
         final String monthYear = getIntent().getExtras().getString("month");
         final String Year = getIntent().getExtras().getString("year");
@@ -49,8 +68,13 @@ public class AddActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (parent.getItemAtPosition(position).equals("Add Type")) {
-                    /*Intent intent1 = new Intent(getApplicationContext(), TypeActivity.class);
-                    startActivity(intent1);*/
+                    Intent intent1 = new Intent(getApplicationContext(), TypeActivity.class);
+                    intent1.putExtra("type", finalTypeSelect);
+                    intent1.putExtra("day",day);
+                    intent1.putExtra("month",monthYear);
+                    intent1.putExtra("year",Year);
+
+                    startActivity(intent1);
                 } else {
 
                     final String item = parent.getItemAtPosition(position).toString();
@@ -97,10 +121,21 @@ public class AddActivity extends AppCompatActivity {
         boolean insertData = pDatabaseHelper.addData(day,month,year,item,amount);
 
         if (insertData) {
-            toastMessage("Add catagory successfully!");
+            toastMessage("Data Successfully Inserted!");
         } else {
             toastMessage("Something went wrong");
         }
+    }
+
+    public ArrayList<String> GetType() {
+        Cursor data = pDatabaseHelper.getType();
+        ArrayList<String> listData = new ArrayList<>();
+        while(data.moveToNext()){
+            String type=data.getString(0);
+            if(!listData.contains(type))
+                listData.add(type);
+        }
+        return listData;
     }
 
     private void toastMessage(String message) {

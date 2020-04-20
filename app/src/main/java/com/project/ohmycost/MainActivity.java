@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent1 = new Intent(getApplicationContext(),GraphActivity.class);
+                //Intent intent1 = new Intent(getApplicationContext(),PieChartActivity.class);
                 startActivity(intent1);
             }
         });
@@ -52,9 +53,14 @@ public class MainActivity extends AppCompatActivity {
                 textList.setText("item List :");
                 String item=GetText(day);
                 textpayDetail.setText(item);
-                String total=GetTotalDay(day);
-                textTotal.setText(total);
+                int total=GetTotalDay(day);
+                textTotal.setText("Total = "+total+" Baht");
                 String totalMonth=GetTotalMonth(monthYear);
+                /*int totalMonth = 0;
+                for(int i=1;i<=31;i++){
+                    int totalDay=GetTotalDay(String.valueOf(i)+"/"+(month+1)+"/"+year);
+                        totalMonth+=totalDay;
+                }*/
                 textTotalMonth.setText(totalMonth);
                 btnAdd[0] = findViewById(R.id.Add);
                 btnAdd[0].setOnClickListener(new View.OnClickListener() {
@@ -83,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return item;
     }
-    public String GetTotalDay(String day) {
+    public int GetTotalDay(String day) {
         Cursor data = pDatabaseHelper.getAmount(day);
         ArrayList<Integer> listData = new ArrayList<>();
         while(data.moveToNext()){
@@ -93,7 +99,8 @@ public class MainActivity extends AppCompatActivity {
         for(int i=0;i<=listData.size()-1;i++){
             total+=listData.get(i);
         }
-        return "Total = "+total+" Baht";
+        return total;
+        //return "Total = "+total+" Baht";
     }
     public String GetTotalMonth(String month) {
         Cursor data = pDatabaseHelper.getTotalMonth(month);

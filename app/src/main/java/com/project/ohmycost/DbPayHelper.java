@@ -79,6 +79,13 @@ public class DbPayHelper extends SQLiteOpenHelper {
         return data;
     }
 
+    public Cursor getType(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT " + COL5 + " FROM " +TABLE_NAME ;
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }
+
     public Cursor getItemID(String day,String amount){
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT " + COL1 + " FROM " + TABLE_NAME + " WHERE " +
