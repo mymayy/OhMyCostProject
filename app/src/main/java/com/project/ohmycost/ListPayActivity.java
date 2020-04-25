@@ -46,7 +46,7 @@ public class ListPayActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String text = adapterView.getItemAtPosition(i).toString();
-                String[] arr = text.split("        ");
+                String[] arr = text.split("              ");
                 String amount = arr[1];
                 Log.d(TAG, "onItemClick: You Clicked on " + amount);
 
