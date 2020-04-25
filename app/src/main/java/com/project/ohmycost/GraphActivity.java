@@ -111,7 +111,7 @@ public class GraphActivity extends AppCompatActivity {
                         for (Integer team : mMultiSelected) {
                             text+=data[team]+" ";
                         }
-                        Toast.makeText(getApplicationContext(), "you select" +
+                        Toast.makeText(getApplicationContext(), "you select " +
                                 text, Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                         Intent intent = new Intent(getApplicationContext(),BarChartActivity.class);
