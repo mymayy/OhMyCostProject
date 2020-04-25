@@ -24,7 +24,6 @@ public class BarChartActivity extends AppCompatActivity {
 
     DbPayHelper pDatabaseHelper;
     BarChart mChart;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
