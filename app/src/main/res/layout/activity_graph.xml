@@ -4,13 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg2"
     tools:context=".GraphActivity">
 
     <Button
         android:id="@+id/btnMonth"
         android:layout_width="305dp"
         android:layout_height="63dp"
+        android:background="#F6B9CE"
         android:text="graph for 1 month"
+        android:textColor="#673AB7"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,7 +25,11 @@
         android:id="@+id/btnCompare"
         android:layout_width="305dp"
         android:layout_height="63dp"
+        android:background="#F3E678"
+        android:shadowColor="#DD8383"
         android:text="select month to compare"
+        android:textColor="#E1769B"
+        android:textColorHint="#FFFFFF"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
