@@ -1,7 +1,6 @@
 package com.project.ohmycost;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -55,10 +54,12 @@ public class AddActivity extends AppCompatActivity {
             }
         }
 
+
         final String day = getIntent().getExtras().getString("day");
         final String monthYear = getIntent().getExtras().getString("month");
         final String Year = getIntent().getExtras().getString("year");
-        Toast.makeText(AddActivity.this, day, Toast.LENGTH_SHORT).show();
+        final ArrayList<String> typeMonth = GetTypeMonth(day);
+        toastMessage(day);
         ArrayAdapter<String> dataAdapter;
         dataAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,typeSelect);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -73,10 +74,15 @@ public class AddActivity extends AppCompatActivity {
                     intent1.putExtra("day",day);
                     intent1.putExtra("month",monthYear);
                     intent1.putExtra("year",Year);
-
                     startActivity(intent1);
-                } else {
-
+                } else if(typeMonth.contains(parent.getItemAtPosition(position))){
+                    btnAdd.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            toastMessage("Click VIEW DATA to edit data of this type.");
+                        }
+                    });
+                }else {
                     final String item = parent.getItemAtPosition(position).toString();
                     //Toast.makeText(parent.getContext(), item, Toast.LENGTH_SHORT).show();
                     btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -134,6 +140,15 @@ public class AddActivity extends AppCompatActivity {
             String type=data.getString(0);
             if(!listData.contains(type))
                 listData.add(type);
+        }
+        return listData;
+    }
+
+    public ArrayList<String> GetTypeMonth(String day) {
+        Cursor data = pDatabaseHelper.getAmount(day);
+        ArrayList<String> listData = new ArrayList<>();
+        while(data.moveToNext()){
+            listData.add(data.getString(0));
         }
         return listData;
     }

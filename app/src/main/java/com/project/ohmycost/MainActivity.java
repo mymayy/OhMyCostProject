@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     CalendarView mCalendar;
-    Button btnGraph;
+    Button btnGraph,btnView;
     private Button[] btnAdd = new Button[1];
     private TextView textDate,textpayDetail,textList,textTotal,textTotalMonth;
     DbPayHelper pDatabaseHelper;
@@ -36,11 +36,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent1 = new Intent(getApplicationContext(),GraphActivity.class);
-                //Intent intent1 = new Intent(getApplicationContext(),PieChartActivity.class);
                 startActivity(intent1);
             }
         });
-
 
         mCalendar = findViewById(R.id.calendarView);
         mCalendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -56,11 +54,6 @@ public class MainActivity extends AppCompatActivity {
                 int total=GetTotalDay(day);
                 textTotal.setText("Total = "+total+" Baht");
                 String totalMonth=GetTotalMonth(monthYear);
-                /*int totalMonth = 0;
-                for(int i=1;i<=31;i++){
-                    int totalDay=GetTotalDay(String.valueOf(i)+"/"+(month+1)+"/"+year);
-                        totalMonth+=totalDay;
-                }*/
                 textTotalMonth.setText(totalMonth);
                 btnAdd[0] = findViewById(R.id.Add);
                 btnAdd[0].setOnClickListener(new View.OnClickListener() {
@@ -73,15 +66,25 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 });
-
+                btnView = findViewById(R.id.btnView);
+                btnView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MainActivity.this, ListPayActivity.class);
+                        intent.putExtra("day",day);
+                        startActivity(intent);
+                    }
+                });
             }
         });
+
     }
+
     public String GetText(String date) {
         Cursor data = pDatabaseHelper.getData(date);
         ArrayList<String> listData = new ArrayList<>();
         while(data.moveToNext()){
-            listData.add(data.getString(1)+"    "+data.getInt(2));
+            listData.add(data.getString(1)+"                 "+data.getInt(2));
         }
         String item="";
         for(int i=0;i<=listData.size()-1;i++){
@@ -100,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
             total+=listData.get(i);
         }
         return total;
-        //return "Total = "+total+" Baht";
     }
     public String GetTotalMonth(String month) {
         Cursor data = pDatabaseHelper.getTotalMonth(month);
@@ -114,5 +116,4 @@ public class MainActivity extends AppCompatActivity {
         }
         return "Total = "+total+" Baht";
     }
-
 }

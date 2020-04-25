@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 public class ListPayActivity extends AppCompatActivity {
 
+
     private static final String TAG = "ListPayActivity";
     DbPayHelper pDatabaseHelper;
     ListView mListView;
@@ -24,7 +25,7 @@ public class ListPayActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_pay);
-        mListView = (ListView) findViewById(R.id.listView);
+        mListView = findViewById(R.id.listView);
         pDatabaseHelper = new DbPayHelper(this);
 
         populateListView();
@@ -36,7 +37,7 @@ public class ListPayActivity extends AppCompatActivity {
         Cursor data = pDatabaseHelper.getData(day);
         ArrayList<String> listData = new ArrayList<>();
         while(data.moveToNext()){
-            listData.add(data.getString(1)+"    "+data.getInt(2));
+            listData.add(data.getString(1)+"              "+data.getInt(2));
         }
         ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData);
         mListView.setAdapter(adapter);
@@ -45,7 +46,7 @@ public class ListPayActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String text = adapterView.getItemAtPosition(i).toString();
-                String[] arr = text.split("    ");
+                String[] arr = text.split("        ");
                 String amount = arr[1];
                 Log.d(TAG, "onItemClick: You Clicked on " + amount);
 
@@ -72,4 +73,3 @@ public class ListPayActivity extends AppCompatActivity {
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
     }
 }
-

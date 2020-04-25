@@ -10,14 +10,15 @@
         android:id="@+id/typeSelect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Type selecteion :"
+        android:text="Type selection :"
         android:textSize="25dp"
+        app:fontFamily="sans-serif-smallcaps"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.178"
+        app:layout_constraintHorizontal_bias="0.069"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.065" />
+        app:layout_constraintVertical_bias="0.083" />
 
     <Spinner
         android:id="@+id/spinner"
