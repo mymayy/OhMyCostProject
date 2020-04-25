@@ -23,6 +23,8 @@ public class EditPayActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_pay);
         btnSave = findViewById(R.id.btnSave);
         btnDelete = findViewById(R.id.btnDelete);
+        btnBack = findViewById(R.id.btnBack);
+        final String day = getIntent().getExtras().getString("day");
         editable_item = findViewById(R.id.editable_item);
         pDatabaseHelper = new DbPayHelper(this);
 
@@ -36,8 +38,9 @@ public class EditPayActivity extends AppCompatActivity {
                 String item = editable_item.getText().toString();
                 if(!item.equals("")){
                     pDatabaseHelper.updateName(item,selectedID,selectedName);
+                    toastMessage("Data Successfully Edit!");
                 }else{
-                    toastMessage("You must enter a name");
+                    toastMessage("You must enter a data");
                 }
             }
         });
@@ -46,7 +49,15 @@ public class EditPayActivity extends AppCompatActivity {
             public void onClick(View view) {
                 pDatabaseHelper.deleteName(selectedID,selectedName);
                 editable_item.setText("");
-                toastMessage("Delete catagory successfully!");
+                toastMessage("removed from database");
+            }
+        });
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EditPayActivity.this, ListPayActivity.class);
+                intent.putExtra("day",day);
+                startActivity(intent);
             }
         });
     }

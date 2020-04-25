@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -20,15 +21,35 @@ public class ListPayActivity extends AppCompatActivity {
     private static final String TAG = "ListPayActivity";
     DbPayHelper pDatabaseHelper;
     ListView mListView;
+    Button btnBackMain,btnBackAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_pay);
         mListView = findViewById(R.id.listView);
+        btnBackMain = findViewById(R.id.btnBackMain);
+        btnBackAdd = findViewById(R.id.btnBackAdd);
         pDatabaseHelper = new DbPayHelper(this);
+        final String day = getIntent().getExtras().getString("day");
 
         populateListView();
+
+        btnBackMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ListPayActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+        btnBackAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ListPayActivity.this, AddActivity.class);
+                intent.putExtra("day",day);
+                startActivity(intent);
+            }
+        });
     }
 
     private void populateListView() {
@@ -60,6 +81,7 @@ public class ListPayActivity extends AppCompatActivity {
                     Intent editScreenIntent = new Intent(ListPayActivity.this, EditPayActivity.class);
                     editScreenIntent.putExtra("id",itemID);
                     editScreenIntent.putExtra("name",amount);
+                    editScreenIntent.putExtra("day",day);
                     startActivity(editScreenIntent);
                 }
                 else{

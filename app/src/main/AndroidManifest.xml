@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".BarChartActivity"></activity>
+        <activity android:name=".EditTypeActivity"></activity>
+        <activity android:name=".ListTypeActivity" />
+        <activity android:name=".BarChartActivity" />
         <activity android:name=".PieChartActivity" />
         <activity android:name=".TypeActivity" />
         <activity android:name=".EditPayActivity" />
