@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg4"
     tools:context=".ListPayActivity">
 
     <ListView
@@ -20,8 +21,9 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#05FAF2B2"
         android:text="item :"
-        android:textSize="25sp"
+        android:textSize="36sp"
         app:fontFamily="sans-serif-smallcaps"
         app:layout_constraintBottom_toTopOf="@+id/listView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,6 +36,7 @@
         android:id="@+id/btnBackMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#F4B9CD"
         android:text="Main Menu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,6 +49,7 @@
         android:id="@+id/btnBackAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#B1E6ED"
         android:text="add data"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
