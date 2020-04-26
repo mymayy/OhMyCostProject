@@ -1,6 +1,5 @@
 package com.project.ohmycost;
 
-//package com.project.ohmycostpay;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;

@@ -1,9 +1,12 @@
 package com.project.ohmycost;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -24,11 +27,13 @@ public class BarChartActivity extends AppCompatActivity {
 
     DbPayHelper pDatabaseHelper;
     BarChart mChart;
+    Button btnBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bar_chart);
         pDatabaseHelper = new DbPayHelper(this);
+        btnBack = findViewById(R.id.btnBack);
         mChart=findViewById(R.id.bar_chart);
 
         String monthSelect = getIntent().getExtras().getString("month");
@@ -54,7 +59,7 @@ public class BarChartActivity extends AppCompatActivity {
 
         mChart.setFitBars(true);
         mChart.setData(barData);
-        mChart.getDescription().setText("Bar Chart");
+        mChart.getDescription().setText("");
         mChart.animateXY(3000,5000);
 
         YAxis leftAxis = mChart.getAxisRight();
@@ -72,6 +77,14 @@ public class BarChartActivity extends AppCompatActivity {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         mChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         mChart.getXAxis().setLabelRotationAngle(45);
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(getApplicationContext(),GraphActivity.class);
+                startActivity(intent1);
+            }
+        });
     }
 
     public Integer GetTotalMonth(String month) {

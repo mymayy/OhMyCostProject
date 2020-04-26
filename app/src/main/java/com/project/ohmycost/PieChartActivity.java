@@ -2,8 +2,11 @@ package com.project.ohmycost;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -20,13 +23,23 @@ public class PieChartActivity extends AppCompatActivity {
 
     DbPayHelper pDatabaseHelper;
     TextView text;
+    Button btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pie_chart);
         pDatabaseHelper = new DbPayHelper(this);
+        btnBack = findViewById(R.id.btnBack);
         setupPieChart();
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(getApplicationContext(),GraphActivity.class);
+                startActivity(intent1);
+            }
+        });
     }
 
     public void setupPieChart(){
@@ -61,6 +74,7 @@ public class PieChartActivity extends AppCompatActivity {
         chart.animateY(3000);
         chart.setHoleRadius(30);
         chart.setTransparentCircleRadius(40);
+        chart.getDescription().setText("");
 
         dataset.setValueFormatter(new PercentFormatter(chart));
         chart.setUsePercentValues(true);

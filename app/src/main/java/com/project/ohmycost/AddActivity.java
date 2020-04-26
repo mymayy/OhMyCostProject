@@ -1,25 +1,28 @@
 package com.project.ohmycost;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class AddActivity extends AppCompatActivity {
 
-    Spinner spinner;
     EditText payInput;
-    Button btnAdd,btnViewData,btnBack;
+    Button btnAdd,btnViewData,btnBack,btnSelect;
+    TextView textSelect;
     DbPayHelper pDatabaseHelper;
+    int position=0;
+    String mSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +34,9 @@ public class AddActivity extends AppCompatActivity {
         payInput = findViewById(R.id.payInput);
         btnBack = findViewById(R.id.btnBack);
         btnViewData = findViewById(R.id.btnView);
-        spinner = findViewById(R.id.spinner);
-        ArrayList<String> typeSelect = new ArrayList<>();
+        btnSelect = findViewById(R.id.btnSelect);
+        textSelect = findViewById(R.id.textSelect);
+        final ArrayList<String> typeSelect = new ArrayList<>();
         typeSelect.add("Food");
         typeSelect.add("Bus");
         typeSelect.add("Add Type");
@@ -54,57 +58,75 @@ public class AddActivity extends AppCompatActivity {
             }
         }
 
+        final String[] data = new String[typeSelect.size()];
+        for (int i = 0; i < data.length; i++) {
+            data[i] = typeSelect.get(i);
+        }
 
         final String day = getIntent().getExtras().getString("day");
         final String monthYear = getIntent().getExtras().getString("month");
         final String Year = getIntent().getExtras().getString("year");
         final ArrayList<String> typeMonth = GetTypeMonth(day);
         toastMessage(day);
-        ArrayAdapter<String> dataAdapter;
-        dataAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,typeSelect);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(dataAdapter);
-        final ArrayList<String> finalTypeSelect = typeSelect;
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (parent.getItemAtPosition(position).equals("Add Type")) {
-                    Intent intent1 = new Intent(getApplicationContext(), TypeActivity.class);
-                    intent1.putExtra("type", finalTypeSelect);
-                    intent1.putExtra("day",day);
-                    intent1.putExtra("month",monthYear);
-                    intent1.putExtra("year",Year);
-                    startActivity(intent1);
-                } else if(typeMonth.contains(parent.getItemAtPosition(position))){
-                    btnAdd.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            toastMessage("Click VIEW DATA to edit data of this type.");
-                        }
-                    });
-                }else {
-                    final String item = parent.getItemAtPosition(position).toString();
-                    //Toast.makeText(parent.getContext(), item, Toast.LENGTH_SHORT).show();
-                    btnAdd.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            String newEntry = payInput.getText().toString();
-                            if (payInput.length() != 0) {
-                                AddData(day,monthYear,Year,item,newEntry);
-                                payInput.setText("");
-                            } else {
-                                toastMessage("You must put something in the text field!");
-                            }
-                        }
-                    });
-                }
-            }
 
+        btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(AddActivity.this);
+                builder.setTitle("Select Type");
+                builder.setSingleChoiceItems(data, position, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        position=i;
+                    }
+                });
+                builder.setPositiveButton("select", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mSelected = data[position];
+                        if (mSelected.equals("Add Type")) {
+                            Intent intent1 = new Intent(getApplicationContext(), TypeActivity.class);
+                            typeSelect.remove("Add Type");
+                            intent1.putExtra("type", typeSelect);
+                            intent1.putExtra("day",day);
+                            intent1.putExtra("month",monthYear);
+                            intent1.putExtra("year",Year);
+                            startActivity(intent1);
+                        }else
+                            textSelect.setText(mSelected);
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton("back", null);
+                builder.create();
+                builder.show();
             }
         });
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String newEntry = payInput.getText().toString();
+                if(textSelect.length()!=0){
+                    if(typeMonth.contains(mSelected)){
+                        toastMessage("Click VIEW DATA to edit data of this type.");
+                    }else{
+                        if (payInput.length() != 0) {
+                            AddData(day,monthYear,Year,mSelected,newEntry);
+                            payInput.setText("");
+                            textSelect.setText("");
+                            typeMonth.add(mSelected);
+                        } else {
+                            toastMessage("You must put something in the text field!");
+                        }
+                    }
+                }else{
+                    toastMessage("Please select type.");
+                }
+            }
+        });
+
+
         btnViewData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
