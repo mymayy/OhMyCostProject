@@ -17,7 +17,6 @@ public class DbPayHelper extends SQLiteOpenHelper {
     private static final String COL4 = "year";
     private static final String COL5 = "type";
     private static final String COL6 = "amount";
-    private static final String COL7 = "monthName";
 
     public DbPayHelper(Context context) {
         super(context, TABLE_NAME, null, 1);
@@ -26,13 +25,13 @@ public class DbPayHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createTable = "CREATE TABLE " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COL2 + " TEXT, " + COL3 + " TEXT, "  + COL4 + " TEXT, "  + COL5 + " TEXT, "  + COL6 + " TEXT, " + COL7 + " TEXT);";
+                COL2 + " TEXT, " + COL3 + " TEXT, "  + COL4 + " TEXT, "  + COL5 + " TEXT, "  + COL6 + " TEXT);";
         db.execSQL(createTable);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        db.execSQL("DROP IF TABLE EXISTS " + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
 
